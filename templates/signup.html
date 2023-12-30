@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card mx-auto" style="max-width: 520px; margin-top: 40px">
+    <article class="card-body">
+      <header class="mb-4"><h4 class="card-title">Sign up</h4></header>
+      <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="forusername" class="form-label">Username</label>
+            {{form.username}}
+          </div>
+        <div class="row mb-4">
+          <div class="col">
+            <label>Create password</label>
+            {{form.password1}}
+            <span id="msg"></span>
+          </div>
+          <div class="col">
+            <label>Repeat password</label>
+            {{form.password2}}
+            <span id="messg"></span>
+          </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        {{form.errors}} {{form.non_field_errors}}
+      </form>
+    </article>
+  </div>
+  <p class="text-center mt-4">
+    Have an account? <a href="{% url "login" %}">Log In</a>
+  </p>
+  <br /><br />
+{% endblock content %}

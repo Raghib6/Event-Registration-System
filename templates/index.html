@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-1">
     {% for event in events %}
-    <a href="{% url "home" %}" class="text-decoration-none">
+    <a href="{% url "event_details" event.id %}" class="text-decoration-none">
         <div class="col">
             <div class="card" style="height: 100%;">
                 <img src="{{ event.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="...">

@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user
-from .models import Event
+from .models import Event, EventRegistration
+from datetime import datetime, timedelta
 
 
 def index(request):
@@ -16,6 +17,35 @@ def index(request):
             Q(title__icontains=query) | Q(location__icontains=query)
         )
     return render(request, "index.html", {"events": events})
+
+
+def event_details(request, id):
+    event = Event.objects.get(id=id)
+    user = request.user
+    current_date = datetime.now().date()
+    last_date = event.date - timedelta(days=1)
+    if current_date > last_date:
+        print("current date greater")
+    elif current_date < last_date:
+        print("current date smaller")
+    elif current_date == last_date:
+        print("equal")
+    if user.is_authenticated:
+        try:
+            joined = EventRegistration.objects.filter(
+                user=user, event=event.id
+            ).exists()
+        except EventRegistration.DoesNotExist:
+            joined = None
+    else:
+        joined = None
+    context = {
+        "event": event,
+        "joined": joined,
+        "current_date": current_date,
+        "last_date": last_date,
+    }
+    return render(request, "event_details.html", context)
 
 
 @unauthenticated_user

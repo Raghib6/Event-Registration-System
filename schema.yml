@@ -1,0 +1,168 @@
+openapi: 3.0.3
+info:
+  title: EventBuddy API
+  version: 1.0.0
+  description: Event Registration System
+paths:
+  /api/events/:
+    get:
+      operationId: events_list
+      tags:
+      - events
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+          description: ''
+  /api/events/{id}/:
+    get:
+      operationId: events_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+  /api/join-events/:
+    post:
+      operationId: join_events_create
+      tags:
+      - join-events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EventRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EventRegistration'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventRegistration'
+          description: ''
+  /api/user-events/:
+    get:
+      operationId: user_events_list
+      tags:
+      - user-events
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventRegistration'
+          description: ''
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        time:
+          type: string
+          format: time
+        date:
+          type: string
+          format: date
+        location:
+          type: string
+          maxLength: 250
+        total_slots:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        available_slots:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        image:
+          type: string
+          format: uri
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - available_slots
+      - created_at
+      - date
+      - description
+      - id
+      - image
+      - location
+      - time
+      - title
+      - total_slots
+    EventRegistration:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        event:
+          type: integer
+        user:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - event
+      - id
+      - user
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

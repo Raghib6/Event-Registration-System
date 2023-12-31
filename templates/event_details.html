@@ -48,7 +48,7 @@
                         {% elif last_date >= current_date  %}
                         <div class="d-grid gap-2">
                             {% if joined %}
-                                <button class="btn btn-danger" type="button">Leave Event</button>
+                            <a href="{% url "leave_event" event.id %}" class="btn btn-danger" role="button">Leave Event</a>
                             {% else %}
                                 <a href="{% url "join_event" event.id %}" class="btn btn-primary" role="button">Join Event</a>
                             {% endif %}

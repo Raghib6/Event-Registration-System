@@ -68,6 +68,36 @@ def join_event(request, id):
         pass
 
 
+@login_required(login_url="login")
+def leave_event(request, id):
+    user = request.user
+    event = get_object_or_404(Event, id=id)
+    try:
+        if EventRegistration.objects.filter(user=user, event=event).exists():
+            er = get_object_or_404(EventRegistration, user=user, event=event)
+            er.delete()
+            event.available_slots += 1
+            event.save()
+            return redirect("/user-profile/")
+        else:
+            return redirect(f"/event/{event.id}")
+    except Event.DoesNotExist:
+        pass
+
+
+@login_required(login_url="login")
+def user_profile(request):
+    user = request.user
+    events = user.events.all().order_by("-created_at")
+    query = request.GET.get("search")
+    if query:
+        events = EventRegistration.objects.filter(
+            Q(event__title__icontains=query) | Q(event__location__icontains=query)
+        )
+    context = {"username": user.username, "events": events}
+    return render(request, "profile.html", context)
+
+
 @unauthenticated_user
 def signup(request):
     form = UserSignUpForm()

@@ -1,13 +1,21 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .forms import UserSignUpForm
 from django.contrib.auth import authenticate
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user
+from .models import Event
 
 
 def index(request):
-    return render(request, "index.html")
+    query = request.GET.get("search")
+    events = Event.objects.all()
+    if query:
+        events = Event.objects.filter(
+            Q(title__icontains=query) | Q(location__icontains=query)
+        )
+    return render(request, "index.html", {"events": events})
 
 
 @unauthenticated_user

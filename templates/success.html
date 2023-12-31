@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="alert alert-success" role="alert">
+                <span>Congratulations, <span class="text-danger"><b>{{user.username}}</b></span> <b>!</b> You have successfully joined the event.</span>
+              </div>
+        </div>
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <img src="{{ event.image.url }}" class="card-img-top" style="height: 300px; object-fit: cover;" alt="Event Image">
+                <div class="card-body">
+                    <h3 class="card-title text-primary text-center mb-4">{{ event.title }}</h3>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="text-start ms-5">
+                            <span class="text-dark">Time: {{event.time}}</span>
+                        </div>
+                        <div class="text-end me-5">
+                            <span class="text-dark">Date: {{event.date}}</span>
+                        </div>
+                    </div>
+                    <p class="text-center mt-2">Location: {{event.location}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

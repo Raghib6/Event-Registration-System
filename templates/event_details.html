@@ -47,11 +47,12 @@
                         <h4 class='text-center text-danger'>No Slots Available</h4>
                         {% elif last_date >= current_date  %}
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button">Join</button>
                             {% if joined %}
-                            <button class="btn btn-danger" type="button">Cancel Event</button>
+                                <button class="btn btn-danger" type="button">Leave Event</button>
+                            {% else %}
+                                <a href="{% url "join_event" event.id %}" class="btn btn-primary" role="button">Join Event</a>
                             {% endif %}
-                        </div>
+                        </div>                        
                         {% elif event.date < current_date %}
                             <h5 class='text-danger'>Event has passed</h5>
                         {% endif %}

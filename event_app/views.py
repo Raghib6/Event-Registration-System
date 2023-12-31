@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user
 from .models import Event, EventRegistration
 from datetime import datetime, timedelta
+from django.shortcuts import get_object_or_404
 
 
 def index(request):
@@ -46,6 +47,25 @@ def event_details(request, id):
         "last_date": last_date,
     }
     return render(request, "event_details.html", context)
+
+
+@login_required(login_url="login")
+def join_event(request, id):
+    user = request.user
+    event = get_object_or_404(Event, id=id)
+    try:
+        if (
+            event.available_slots > 0
+            and not EventRegistration.objects.filter(user=user, event=event).exists()
+        ):
+            er = EventRegistration.objects.create(user=user, event=event)
+            event.available_slots -= 1
+            event.save()
+            return render(request, "success.html", {"user": user, "event": event})
+        else:
+            return redirect(f"/event/{event.id}")
+    except Event.DoesNotExist:
+        pass
 
 
 @unauthenticated_user

@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="alert alert-success" role="alert">
                 <span>Congratulations, <span class="text-danger"><b>{{user.username}}</b></span> <b>!</b> You have successfully joined the event.</span>
               </div>
         </div>
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8 offset-md-2 mb-4">
             <div class="card">
                 <img src="{{ event.image.url }}" class="card-img-top" style="height: 300px; object-fit: cover;" alt="Event Image">
                 <div class="card-body">

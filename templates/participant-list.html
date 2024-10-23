@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+              <div class="card-header">
+                {{event.title}}
+              </div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="text-start">
+                        <span class="text-dark">Total Participants: {{count}}</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-dark">Available Slots: {{event.available_slots}}</span>
+                    </div>
+                    <div class="text-end">
+                        <span class="text-dark">Total Slots: {{event.total_slots}}</span>
+                    </div>
+                </div>
+                <hr>
+                <p class="text-center mt-2">Location: {{event.location}}</p>
+              </div>
+            </div>
+          </div>
+    
+      <!-- Table on the right -->
+      <div class="col-md-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Name</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for participant in event_details %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{participant.user.username}}</td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+{% endblock %}

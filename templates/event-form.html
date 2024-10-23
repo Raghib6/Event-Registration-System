@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card mx-auto" style="max-width: 520px; margin-top: 40px">
+    <article class="card-body">
+      <header class="mb-4"><h4 class="card-title">Create New Event</h4></header>
+      <form method="POST" enctype="multipart/form-data" autocomplete="off" >
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="forusername" class="form-label">Event Title</label>
+            {{form.title}}
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <label>Time</label>
+            {{form.time}}
+            <span id="msg"></span>
+          </div>
+          <div class="col">
+            <label>Date</label>
+            {{form.date}}
+            <span id="messg"></span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="forusername" class="form-label">Event Location</label>
+          {{form.location}}
+      </div>
+        <div class="row mb-4">
+          <div class="col">
+            <label>Slots</label>
+            {{form.total_slots}}
+            <span id="msg"></span>
+          </div>
+          <div class="col">
+            <label>Banner</label>
+            {{form.image}}
+            <span id="messg"></span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="forusername" class="form-label">Event Description</label>
+          {{form.description}}
+      </div>
+        <div class="col-12">
+          {% if not flag %}
+            <button type="submit" class="btn btn-primary">Create Event</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary">Update Event</button>
+          {% endif %}
+        </div>
+        {{form.errors}} {{form.non_field_errors}}
+      </form>
+    </article>
+  </div>
+  <br /><br />
+{% endblock content %}

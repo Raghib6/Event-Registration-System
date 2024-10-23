@@ -6,6 +6,7 @@ from .models import Event, EventRegistration
 class EventAdmin(admin.ModelAdmin):
     list_display = [
         "title",
+        "user",
         "time",
         "date",
         "available_slots",

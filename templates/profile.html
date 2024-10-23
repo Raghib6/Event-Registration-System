@@ -11,11 +11,11 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">{{username}}</h5>
-            <p class="card-text">Total Registered Events: {{events.count}}</p>
+            <p class="card-text">Total Registered Events: {{count}}</p>
           </div>
         </div>
       </div>
-
+      {% if events or admin_events %}
       <!-- Table on the right -->
       <div class="col-md-9">
         <table class="table table-bordered">
@@ -28,6 +28,7 @@
               <!-- Add more columns as needed -->
             </tr>
           </thead>
+          {% if events %}
           <tbody>
             {% for event in events %}
             <tr>
@@ -38,8 +39,25 @@
             </tr>
             {% endfor %}
           </tbody>
+          {% else %}
+          <tbody>
+            {% for event in admin_events %}
+            <tr>
+              <td><a href="{% url "event_details" event.id %}">{{event.title}}</a></td>
+              <td>{{event.time}}</td>
+              <td>{{event.date}}</td>
+              <td>{{event.location}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          {% endif %}
         </table>
       </div>
+      {% else %}
+      <br><br>
+      <div class="col-md-9"><h2 class="text-center">No events found</h2></div>
+        
+      {% endif %}
     </div>
   </div>
 {% endblock %}

@@ -19,6 +19,11 @@
           <li class="nav-item">
             <a class="nav-link active" href="{% url "user_profile" %}">{{request.user.username}}</a>
           </li>
+          {% if user.is_superuser or user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'create_event' %}">Create New Event</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link active" href="{% url "logout" %}">Logout</a>
           </li>

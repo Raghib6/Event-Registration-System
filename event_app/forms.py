@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Event
 
 
 class UserSignUpForm(UserCreationForm):
@@ -23,3 +24,19 @@ class UserSignUpForm(UserCreationForm):
 
         if password1 != password2:
             raise forms.ValidationError("Password does not match !")
+
+
+class EventForm(forms.ModelForm):
+
+    class Meta:
+        model = Event
+        fields = ["title", "description", "time", "date","location","total_slots","image"]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "time": forms.TimeInput(attrs={"class": "form-control", "type": "time"}),
+            "date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+            "total_slots": forms.NumberInput(attrs={"class": "form-control"}),
+            "image": forms.FileInput(attrs={"class": "form-control"})
+        }
